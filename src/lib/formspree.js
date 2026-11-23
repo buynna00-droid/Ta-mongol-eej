@@ -33,7 +33,7 @@ export async function submitToFormspree(endpoint, payload, { signal } = {}) {
   }
 
   const body = await response.json().catch(() => null)
-  if (response.ok && body && typeof body === 'object' && body.ok !== false && !body.errors) {
+  if (response.ok && body?.ok === true && !body.errors && !body.error) {
     return body
   }
 

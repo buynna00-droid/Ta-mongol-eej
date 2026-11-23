@@ -14,12 +14,12 @@ const RENDER_TIMEOUT_MS = 15000
  *   { status: 'ok', scriptSrc, className, attrs, providerLabel }
  *   { status: 'missing' } | { status: 'invalid', reason }
  */
-export default function FacebookGallery({ embed, pageUrl }) {
-  if (embed && embed.status === 'ok') return <GalleryWidget embed={embed} pageUrl={pageUrl} />
+export default function FacebookGallery({ embed, pageUrl, compact = false }) {
+  if (embed && embed.status === 'ok') return <GalleryWidget embed={embed} pageUrl={pageUrl} compact={compact} />
   return <GalleryNotice embed={embed} pageUrl={pageUrl} />
 }
 
-function GalleryWidget({ embed, pageUrl }) {
+function GalleryWidget({ embed, pageUrl, compact }) {
   const wrapperRef = useRef(null)
   const embedRef = useRef(null)
   const mountRef = useRef(null)
@@ -75,12 +75,12 @@ function GalleryWidget({ embed, pageUrl }) {
 
   return (
     <div className="fb-gallery" ref={wrapperRef} data-status={status}>
-      <div className="fb-gallery-head">
+      {!compact && <div className="fb-gallery-head">
         <div className="eyebrow"><span /> FACEBOOK-ИЙН ЗУРГИЙН ЦОМОГ</div>
         <a href={pageUrl} target="_blank" rel="noopener noreferrer" className="text-link">
           Бүх зургийг Facebook-ээс үзэх <ArrowUpRight size={15} />
         </a>
-      </div>
+      </div>}
 
       {/* The provider's script renders the gallery inside this element. React
           never re-renders its children, so they are left untouched. */}

@@ -98,7 +98,7 @@ export function resolveSiteImages({ imagesDir, base = '/' }) {
 
 function printReport(logger, { rows, warnings, localCount, total }) {
   const tail = localCount < total ? ' Бусад хэсэгт түр зураг (placeholder) харагдана — docs/IMAGES.md' : ''
-  logger.info(`\n[зураг] public/images/: ${localCount}/${total} албан ёсны зураг олдлоо.${tail}`)
+  logger.info(`\n[зураг] public/images/: ${localCount}/${total} дотоод зургийн файл олдлоо.${tail}`)
   rows.forEach((row) => logger.info(row))
   warnings.forEach((warning) => logger.warn(`  ⚠ ${warning}`))
 }

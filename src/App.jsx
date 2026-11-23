@@ -5,9 +5,7 @@ import {
 } from 'lucide-react'
 import siteImages from 'virtual:site-images'
 import { MOBILE_MEDIA } from './config/images.js'
-import { FACEBOOK_PAGE_URL as FB, galleryEmbed } from './config/site.js'
-import FacebookGallery from './components/FacebookGallery.jsx'
-import FacebookPagePlugin from './components/FacebookPagePlugin.jsx'
+import { FACEBOOK_PAGE_URL as FB } from './config/site.js'
 import RegistrationForm from './components/RegistrationForm.jsx'
 import logoMark1x from './assets/logo/logo-mark-56.png'
 import logoMark2x from './assets/logo/logo-mark-112.png'
@@ -150,6 +148,13 @@ function Pillars() {
   const close = React.useCallback(() => setSelected(null), [])
   useEscape(Boolean(selected), close)
 
+  useEffect(() => {
+    if (!selected) return undefined
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = previous }
+  }, [selected])
+
   // Move focus into the dialog; give it back to the button that opened it.
   useEffect(() => {
     if (!selected) return undefined
@@ -219,6 +224,7 @@ function Testimonials() {
   return <section className="section testimonial-section" aria-roledescription="carousel" aria-label="Ээжүүдийн сэтгэгдэл">
     <div className="testimonial-copy">
       <div className="eyebrow"><span/> ЭЭЖҮҮДИЙН СЭТГЭГДЭЛ</div>
+      <p className="testimonial-notice">Доорх нь жишээ текстүүд. Бодит оролцогчдын сэтгэгдлийг зөвшөөрөлтэйгөөр нийтэлнэ.</p>
       <div className="quote-mark" aria-hidden="true">“</div>
       <div aria-live="polite">
         <blockquote>{item.quote}</blockquote>
@@ -249,7 +255,6 @@ function Gallery() {
         <figcaption><span>0{i+1}</span>{item.label}</figcaption>
       </figure>)}
     </div>
-    <FacebookGallery embed={galleryEmbed} pageUrl={FB} />
   </section>
 }
 
@@ -263,11 +268,12 @@ function FacebookRegistration() {
     <div className="contact-grid">
       <div className="facebook-panel">
         <div className="panel-heading"><div><Facebook size={18}/><span>FACEBOOK · ТА МОНГОЛ ЭЭЖ</span></div><a href={FB} target="_blank" rel="noopener noreferrer">Хуудас үзэх <ArrowUpRight size={14}/></a></div>
-        <FacebookPagePlugin pageUrl={FB} title="Та Монгол Ээж Facebook хуудасны мэдээ" />
-        <p className="facebook-note">
-          Facebook-ийн нийтлэлүүдийг албан ёсны хуудсаас шууд харуулна. Зарим браузерын нууцлалын тохиргоо, сурталчилгаа хаагчаас шалтгаалан ачааллахгүй байж болно —{' '}
-          <a href={FB} target="_blank" rel="noopener noreferrer">энд дарж Facebook хуудсыг шууд нээнэ үү <ArrowUpRight size={12}/></a>
-        </p>
+        <div className="facebook-contact-card">
+          <Facebook size={32} strokeWidth={1.2} aria-hidden="true" />
+          <h3>Facebook-ээр<br /><em>холбоотой байя.</em></h3>
+          <p>Шинэ зураг, нийтлэл, сургалтын мэдээллийг манай Facebook хуудаснаас үзээрэй.</p>
+          <a href={FB} target="_blank" rel="noopener noreferrer" className="outline-button">Facebook хуудас үзэх <ArrowUpRight size={15} /></a>
+        </div>
       </div>
       <div className="registration-panel">
         <RegistrationForm />
